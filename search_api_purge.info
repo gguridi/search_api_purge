@@ -1,0 +1,6 @@
+name = "Search Api Purge"
+description = "Purges elements in the solr index that no longer exist in Drupal."
+core = 7.x
+
+files[] = includes/SearchApiPurgeBatch.inc
+files[] = includes/SearchApiPurgeForm.inc
