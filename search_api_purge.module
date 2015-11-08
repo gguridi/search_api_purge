@@ -5,23 +5,6 @@
  */
 
 /**
- * Implements hook_menu().
- */
-function search_api_purge_menu() {
-  $items = array();
-  $items['admin/config/search/search_api/purge/%search_api_index'] = array(
-    'title' => 'Purge index',
-    'title callback' => 'search_api_purge_admin_item_title',
-    'title arguments' => array(5),
-    'description' => 'Purge index items.',
-    'page callback' => 'search_api_purge_batch',
-    'page arguments' => array(5),
-    'access arguments' => array('administer search_api'),
-    'file' => 'search_api_purge.batch.inc',
-  );
-}
-
-/**
  * Implements hook_form_alter().
  */
 function search_api_purge_form_alter(&$form, &$form_state, $form_id) {
@@ -31,11 +14,4 @@ function search_api_purge_form_alter(&$form, &$form_state, $form_id) {
       $form = $purge_form->process();
       break;
   }
-}
-
-/**
- * Title callback for purging an index.
- */
-function search_api_purge_admin_item_title($object) {
-  return $object->name;
 }
