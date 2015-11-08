@@ -18,6 +18,7 @@ class SearchApiPurgeForm {
    * Admin form array.
    *
    * @var array
+   *   Form array.
    */
   protected $form;
 
@@ -25,6 +26,7 @@ class SearchApiPurgeForm {
    * Admin form_state array.
    *
    * @var array
+   *   Form state array.
    */
   protected $form_state;
 
@@ -74,9 +76,8 @@ class SearchApiPurgeForm {
    * Adds the action elements to the fieldset.
    */
   public function addInfo() {
-    $sentence = t('Purge all items in batches of !batch_size items.');
     $this->form[self::FIELDSET_PURGE]['action'] = array(
-      '#markup' => t($sentence, array(
+      '#markup' => t('Purge all items in batches of !batch_size items.', array(
         '!batch_size' => $this->getBatchElement(),
       )),
     );
@@ -147,4 +148,5 @@ class SearchApiPurgeForm {
   public function isPurgeSubmit() {
     return ($this->form_state['values']['op'] == $this->getButtonId());
   }
+
 }

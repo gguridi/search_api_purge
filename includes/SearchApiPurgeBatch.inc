@@ -134,4 +134,5 @@ class SearchApiPurgeBatch {
     }
     return count($unknown);
   }
+
 }
