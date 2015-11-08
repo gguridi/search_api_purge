@@ -112,4 +112,30 @@ class SearchApiPurgeForm {
     );
     return drupal_render($element);
   }
+
+  /**
+   * Gets the batch value submitted in the form.
+   *
+   * @return int
+   *   Batch value.
+   */
+  public function getBatchValue() {
+    if (isset($this->form_state['input'][self::PURGE_BATCH])) {
+      return filter_xss($this->form_state['input'][self::PURGE_BATCH]);
+    }
+    return SearchApiPurgeBatch::getInstance()->getBatch();
+  }
+
+  /**
+   * Checks if user has clicked the submit button of the purge.
+   *
+   * As we have added the element as markup, we can't expect the form API
+   * to detect the button and store it as 'op' value.
+   *
+   * @return bool
+   *   True if the purge button has been triggered, false otherwise.
+   */
+  public function isPurgeSubmit() {
+    return isset($form_state['input'][self::PURGE_BUTTON]);
+  }
 }

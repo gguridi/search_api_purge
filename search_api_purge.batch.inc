@@ -10,9 +10,10 @@
  * @see search_api_purge_form_alter()
  */
 function search_api_purge_batch(array $form, array &$form_state) {
-  if (isset($form_state['input'][SearchApiPurgeForm::PURGE_BUTTON])) {
+  $purge_form = new SearchApiPurgeForm($form, $form_state);
+  if ($purge_form->isPurgeSubmit()) {
     $index = $form_state['index'];
-    $batch = filter_xss($form_state['input'][SearchApiPurgeForm::PURGE_BATCH]);
+    $batch = $purge_form->getBatchValue();
     search_api_purge_batch_create($index, $batch);
     batch_process('admin/config/search/search_api/index/' . $index->id);
     $form_state['submitted'] = TRUE;
