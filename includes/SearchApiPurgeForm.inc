@@ -131,7 +131,7 @@ class SearchApiPurgeForm {
    */
   public function getBatchValue() {
     if (isset($this->form_state['values'][self::PURGE_BATCH])) {
-      return filter_xss($this->form_state['values'][self::PURGE_BATCH]);
+      return check_plain($this->form_state['values'][self::PURGE_BATCH]);
     }
     return SearchApiPurgeBatch::getInstance()->getBatch();
   }
