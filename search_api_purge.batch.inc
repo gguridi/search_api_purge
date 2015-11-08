@@ -51,7 +51,7 @@ function search_api_purge_batch_create(SearchApiIndex $index, $batch_size) {
  * @param array $context
  *   Context set by the batch process.
  */
-function search_api_purge_batch_process(SearchApiIndex $index, $batch_size, &$context) {
+function search_api_purge_batch_process(SearchApiIndex $index, $batch_size, array &$context) {
   try {
     if (!isset($context['sandbox']['progress'])) {
       $context['sandbox']['progress'] = 0;

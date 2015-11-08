@@ -38,7 +38,7 @@ class SearchApiPurgeForm {
    * @param array $form_state
    *   Form state array.
    */
-  public function __construct($form, &$form_state) {
+  public function __construct(array $form, array &$form_state) {
     $this->form = $form;
     $this->form_state = &$form_state;
   }
@@ -105,9 +105,6 @@ class SearchApiPurgeForm {
 
   /**
    * Adds the submit button.
-   *
-   * @return string
-   *   Rendered element.
    */
   public function addButton() {
     $this->form[self::FIELDSET_PURGE][self::PURGE_BUTTON] = array(
