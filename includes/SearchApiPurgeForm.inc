@@ -51,7 +51,8 @@ class SearchApiPurgeForm {
     form_load_include($this->form_state, 'batch.inc', 'search_api_purge');
     array_unshift($this->form['#submit'], 'search_api_purge_batch');
     $this->addFieldset();
-    $this->addAction();
+    $this->addInfo();
+    $this->addButton();
     return $this->form;
   }
 
@@ -72,12 +73,11 @@ class SearchApiPurgeForm {
   /**
    * Adds the action elements to the fieldset.
    */
-  public function addAction() {
-    $sentence = t('Purge all items in batches of !batch_size items !action');
+  public function addInfo() {
+    $sentence = t('Purge all items in batches of !batch_size items.');
     $this->form[self::FIELDSET_PURGE]['action'] = array(
       '#markup' => t($sentence, array(
         '!batch_size' => $this->getBatchElement(),
-        '!action' => $this->getButtonElement(),
       )),
     );
   }
@@ -89,6 +89,10 @@ class SearchApiPurgeForm {
    *   Rendered element.
    */
   protected function getBatchElement() {
+    // Adding a type value so we can recover the value easily.
+    $this->form[self::FIELDSET_PURGE][self::PURGE_BATCH] = array(
+      '#type' => 'value',
+    );
     $element = array(
       '#type' => 'textfield',
       '#name' => self::PURGE_BATCH,
@@ -99,18 +103,26 @@ class SearchApiPurgeForm {
   }
 
   /**
-   * Gets the submit button form element rendered.
+   * Adds the submit button.
    *
    * @return string
    *   Rendered element.
    */
-  public function getButtonElement() {
-    $element = array(
+  public function addButton() {
+    $this->form[self::FIELDSET_PURGE][self::PURGE_BUTTON] = array(
       '#type' => 'submit',
-      '#name' => self::PURGE_BUTTON,
-      '#value' => t('Purge now'),
+      '#value' => $this->getButtonId(),
     );
-    return drupal_render($element);
+  }
+
+  /**
+   * Gets the id expected for the button submit.
+   *
+   * @return string
+   *   Button id.
+   */
+  public function getButtonId() {
+    return t('Purge now');
   }
 
   /**
@@ -120,8 +132,8 @@ class SearchApiPurgeForm {
    *   Batch value.
    */
   public function getBatchValue() {
-    if (isset($this->form_state['input'][self::PURGE_BATCH])) {
-      return filter_xss($this->form_state['input'][self::PURGE_BATCH]);
+    if (isset($this->form_state['values'][self::PURGE_BATCH])) {
+      return filter_xss($this->form_state['values'][self::PURGE_BATCH]);
     }
     return SearchApiPurgeBatch::getInstance()->getBatch();
   }
@@ -129,13 +141,10 @@ class SearchApiPurgeForm {
   /**
    * Checks if user has clicked the submit button of the purge.
    *
-   * As we have added the element as markup, we can't expect the form API
-   * to detect the button and store it as 'op' value.
-   *
    * @return bool
    *   True if the purge button has been triggered, false otherwise.
    */
   public function isPurgeSubmit() {
-    return isset($form_state['input'][self::PURGE_BUTTON]);
+    return ($this->form_state['values']['op'] == $this->getButtonId());
   }
 }
