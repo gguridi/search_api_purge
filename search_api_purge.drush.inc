@@ -25,6 +25,16 @@ function search_api_purge_drush_command() {
 }
 
 /**
+ * Implements hook_drush_help().
+ */
+function search_api_purge_drush_help($section) {
+  switch ($section) {
+    case 'drush:search-api-purge':
+      return dt("Run the Search API purge process in your site. It accepts an argument with a specific index to process. If not provided all the indexes will be purged.");
+  }
+}
+
+/**
  * Implements search_api_purge drush command.
  *
  * @param mixed $index_id

@@ -5,6 +5,18 @@
  */
 
 /**
+ * Implements hook_help().
+ */
+function search_api_purge_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#search_api_purge':
+      $output  = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module provides an integration for Search API to easily remove those entities that remain in the search indexes even after having been deleted from the Search PI index. Synchronizing databases, custom scripts, etc. can often create this kind of situations, and not always it is possible to delete the full index and reindex everything again. This module works with the entities indexed by Search API, and any kind of search engine plugged in on that module.') . '</p>';
+      return $output;
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function search_api_purge_form_alter(&$form, &$form_state, $form_id) {
