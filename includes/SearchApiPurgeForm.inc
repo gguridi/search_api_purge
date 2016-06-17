@@ -28,7 +28,7 @@ class SearchApiPurgeForm {
    * @var array
    *   Form state array.
    */
-  protected $form_state;
+  protected $formState;
 
   /**
    * Constructor of the class.
@@ -40,7 +40,7 @@ class SearchApiPurgeForm {
    */
   public function __construct(array $form, array &$form_state) {
     $this->form = $form;
-    $this->form_state = &$form_state;
+    $this->formState = &$form_state;
   }
 
   /**
@@ -50,7 +50,7 @@ class SearchApiPurgeForm {
    *   Form array processed.
    */
   public function process() {
-    form_load_include($this->form_state, 'batch.inc', 'search_api_purge');
+    form_load_include($this->formState, 'batch.inc', 'search_api_purge');
     array_unshift($this->form['#submit'], 'search_api_purge_batch');
     $this->addFieldset();
     $this->addInfo();
@@ -130,8 +130,8 @@ class SearchApiPurgeForm {
    *   Batch value.
    */
   public function getBatchValue() {
-    if (isset($this->form_state['values'][self::PURGE_BATCH])) {
-      return check_plain($this->form_state['values'][self::PURGE_BATCH]);
+    if (isset($this->formState['values'][self::PURGE_BATCH])) {
+      return check_plain($this->formState['values'][self::PURGE_BATCH]);
     }
     return SearchApiPurgeBatch::getInstance()->getBatch();
   }
@@ -143,7 +143,7 @@ class SearchApiPurgeForm {
    *   True if the purge button has been triggered, false otherwise.
    */
   public function isPurgeSubmit() {
-    return ($this->form_state['values']['op'] == $this->getButtonId());
+    return ($this->formState['values']['op'] == $this->getButtonId());
   }
 
 }
